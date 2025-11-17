@@ -1,0 +1,23 @@
+{
+  "name": "knowledgenest-monorepo",
+  "version": "1.0.0",
+  "description": "KnowledgeNest - Online Learning Platform",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix client && npm install --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "build:client": "npm run build --prefix client",
+    "build:server": "npm run build --prefix server",
+    "build:all": "npm run build:client && npm run build:server"
+  },
+  "keywords": [
+    "online-learning",
+    "education",
+    "react",
+    "nodejs",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT"
+}
