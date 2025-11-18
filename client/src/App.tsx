@@ -19,6 +19,9 @@ import AdminDashboardPage from './pages/AdminDashboardPage'
 import AdminUsersPage from './pages/AdminUsersPage'
 import AdminCoursesPage from './pages/AdminCoursesPage'
 import AdminTransactionsPage from './pages/AdminTransactionsPage'
+import AdminAnalyticsPage from './pages/AdminAnalyticsPage'
+import MyProgressPage from './pages/MyProgressPage'
+import EnrollmentSuccessPage from './pages/EnrollmentSuccessPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
 const queryClient = new QueryClient({
@@ -71,6 +74,22 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/my-progress"
+              element={
+                <ProtectedRoute>
+                  <MyProgressPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/enrollment/success"
+              element={
+                <ProtectedRoute>
+                  <EnrollmentSuccessPage />
+                </ProtectedRoute>
+              }
+            />
             
             {/* Instructor routes */}
             <Route
@@ -120,6 +139,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AdminUsersPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/analytics"
+              element={
+                <ProtectedRoute>
+                  <AdminAnalyticsPage />
                 </ProtectedRoute>
               }
             />

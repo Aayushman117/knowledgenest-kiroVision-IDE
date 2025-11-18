@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getCourseById } from '../api/courses';
 import { createCheckoutSession } from '../api/payments';
+import { enrollmentsApi } from '../api/enrollments';
 import { useAuth } from '../context/AuthContext';
 import ReviewSection from './ReviewSection';
 
@@ -63,19 +64,21 @@ export default function CourseDetail() {
 
     if (!id || !course) return;
 
-    // If course is free, enroll directly
-    if (course.price === 0) {
-      setIsProcessing(true);
-      try {
-        const { url } = await createCheckoutSession(id);
-        window.location.href = url;
-      } catch (err: any) {
-        alert(err.response?.data?.message || 'Failed to enroll');
-        setIsProcessing(false);
+    setIsProcessing(true);
+
+    try {
+      // If course is free, enroll directly
+      if (course.price === 0) {
+        await enrollmentsApi.enrollFree(id);
+        // Redirect to success page with course info
+        navigate(`/enrollment/success?courseId=${id}&courseTitle=${encodeURIComponent(course.title)}`);
+      } else {
+        // Redirect to checkout page for paid courses
+        navigate(`/checkout/${id}`);
       }
-    } else {
-      // Redirect to checkout page for paid courses
-      navigate(`/checkout/${id}`);
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Failed to enroll in course');
+      setIsProcessing(false);
     }
   };
 

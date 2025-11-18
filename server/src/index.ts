@@ -13,6 +13,7 @@ import reviewRoutes from './routes/reviewRoutes';
 import instructorRoutes from './routes/instructorRoutes';
 import adminRoutes from './routes/adminRoutes';
 import enrollmentRoutes from './routes/enrollmentRoutes';
+import analyticsRoutes from './routes/analyticsRoutes';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import { generalLimiter } from './middleware/rateLimiter';
 import { sanitizeInput } from './middleware/sanitization';
@@ -66,6 +67,7 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/instructor', instructorRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

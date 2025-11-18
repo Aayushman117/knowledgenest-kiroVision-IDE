@@ -147,3 +147,81 @@ export async function enrollFreeCourse(req: Request, res: Response) {
     res.status(500).json({ message: 'Failed to enroll in course' });
   }
 }
+
+/**
+ * Enroll in a free course directly
+ */
+export async function enrollInFreeCourse(req: Request, res: Response) {
+  try {
+    const userId = req.user!.userId;
+    const { courseId } = req.params;
+    
+    console.log('Free enrollment attempt:', { userId, courseId });
+
+    // Check if course exists and is free
+    const course = await prisma.course.findUnique({
+      where: { id: courseId },
+    });
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: 'Course not found',
+      });
+    }
+
+    if (course.price > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'This course is not free. Please proceed to checkout.',
+      });
+    }
+
+    // Check if already enrolled
+    const existingEnrollment = await prisma.enrollment.findUnique({
+      where: {
+        userId_courseId: {
+          userId,
+          courseId,
+        },
+      },
+    });
+
+    if (existingEnrollment) {
+      return res.status(400).json({
+        success: false,
+        message: 'You are already enrolled in this course',
+      });
+    }
+
+    // Create enrollment
+    const enrollment = await prisma.enrollment.create({
+      data: {
+        userId,
+        courseId,
+      },
+      include: {
+        course: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            thumbnail: true,
+          },
+        },
+      },
+    });
+
+    res.json({
+      success: true,
+      message: 'Successfully enrolled in the course!',
+      data: enrollment,
+    });
+  } catch (error) {
+    console.error('Free enrollment error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to enroll in course',
+    });
+  }
+}

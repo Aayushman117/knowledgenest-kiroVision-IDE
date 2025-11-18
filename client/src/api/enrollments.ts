@@ -16,6 +16,12 @@ export const enrollmentsApi = {
     return response.data;
   },
 
+  // Enroll in a free course directly
+  enrollFree: async (courseId: string): Promise<EnrollmentResponse> => {
+    const response = await apiClient.post(`/enrollments/${courseId}/free`);
+    return response.data;
+  },
+
   // Get user's enrollments
   getMyEnrollments: async (): Promise<EnrollmentResponse[]> => {
     const response = await apiClient.get('/enrollments/my');
