@@ -122,7 +122,7 @@ export default function AdminAnalyticsPage() {
               <div className="bg-white rounded-lg shadow p-6">
                 <div className="text-sm font-medium text-gray-500 mb-2">Total Revenue</div>
                 <div className="text-3xl font-bold text-gray-900">
-                  ${(analytics.overview.totalRevenue / 100).toFixed(2)}
+                  ₹{(analytics.overview.totalRevenue / 100).toFixed(2)}
                 </div>
               </div>
             </div>
